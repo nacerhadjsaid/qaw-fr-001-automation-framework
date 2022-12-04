@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="sauce demo regression">
+    <test name="Login page">
+        <classes>
+            <class name="org.qaway.TestInitialPage"></class>
+            <class name="org.qaway.TestLogin"></class>
+        </classes>
+    </test>
+</suite>

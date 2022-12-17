@@ -1,6 +1,8 @@
 package org.qaway;
 
 import org.qaway.base.CommonAPI;
+import org.qaway.pages.HomePage;
+import org.qaway.pages.LoginPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -8,6 +10,9 @@ public class TestLogin extends CommonAPI {
 
     @Test
     public void loginWithValidCredentials() {
+        LoginPage loginPage = new LoginPage(driver);
+        HomePage homePage = new HomePage(driver);
+
         //check user land on the right page
         String expected = "Swag Labs";
         String actual = getPageTitle();
@@ -16,22 +21,24 @@ public class TestLogin extends CommonAPI {
         System.out.println("page title validation success");
 
         //enter username
-        type("#user-name", "standard_user");
+        loginPage.typeUsername("standard_user");
         System.out.println("enter username success");
 
         //enter password
-        type("#password", "secret_sauce");
+        loginPage.typePassword("secret_sauce");
         System.out.println("enter password success");
 
         //click on login button
-        clickOn("#login-button");
+        loginPage.clickOnLoginButton();
         System.out.println("login button click success");
-        boolean productsHeaderIsDisplayed =isDisplayed(".title");
+
+        boolean productsHeaderIsDisplayed = homePage.productsHeaderIsDisplayed();
         Assert.assertTrue(productsHeaderIsDisplayed);
         System.out.println("Products header is displayed success");
     }
-    @Test
+    //@Test
     public void loginAttemptWithoutUsername() {
+        LoginPage loginPage = new LoginPage(driver);
         //check user land on the right page
         String expected = "Swag Labs";
         String actual = getPageTitle();
@@ -40,22 +47,25 @@ public class TestLogin extends CommonAPI {
         System.out.println("page title validation success");
 
         //enter username
-        type("#user-name", "");
+        loginPage.typeUsername("");
+        System.out.println("enter username success");
 
         //enter password
-        type("#password", "secret_sauce");
+        loginPage.typePassword("secret_sauce");
         System.out.println("enter password success");
 
         //click on login button
-        clickOn("#login-button");
+        loginPage.clickOnLoginButton();
         System.out.println("login button click success");
-        String textError = getWebElementText(".error-message-container.error");
+
+        String textError = loginPage.getErrorMessage();
         System.out.println("error message: "+ textError);
         Assert.assertEquals("Epic sadface: Username is required", textError);
         System.out.println("error message validation success");
     }
-    @Test
+    //@Test
     public void loginAttemptWithoutPassword() {
+        LoginPage loginPage = new LoginPage(driver);
         //check user land on the right page
         String expected = "Swag Labs";
         String actual = getPageTitle();
@@ -64,16 +74,18 @@ public class TestLogin extends CommonAPI {
         System.out.println("page title validation success");
 
         //enter username
-        type("#user-name", "standard_user");
+        loginPage.typeUsername("standard_user");
         System.out.println("enter username success");
 
         //enter password
-        type("#password", "");
+        loginPage.typePassword("");
+        System.out.println("enter password success");
 
         //click on login button
-        clickOn("#login-button");
+        loginPage.clickOnLoginButton();
         System.out.println("login button click success");
-        String textError = getWebElementText(".error-message-container.error");
+
+        String textError = loginPage.getErrorMessage();
         System.out.println("error message: "+ textError);
         Assert.assertEquals("Epic sadface: Password is required", textError);
         System.out.println("error message validation success");

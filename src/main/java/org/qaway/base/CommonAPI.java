@@ -1,8 +1,9 @@
 package org.qaway.base;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
@@ -11,7 +12,7 @@ public class CommonAPI {
 
     @BeforeMethod
     public void setUp(){
-        //System.setProperty("driver.chromedriver", "/Users/nacer-zimu/IdeaProjects/qaw-fr-001-automation/driver/chromedriver");
+        System.setProperty("driver.chromedriver", "/Users/nacer-zimu/IdeaProjects/qaw-fr-001-automation/driver/chromedriver");
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get("https://www.saucedemo.com/");
@@ -26,33 +27,17 @@ public class CommonAPI {
     public String getPageTitle(){
         return driver.getTitle();
     }
-    public void clickOn(String locator){
-        try {
-            driver.findElement(By.cssSelector(locator)).click();
-        }catch (Exception e) {
-            driver.findElement(By.xpath(locator)).click();
-        }
+    public void clickOn(WebElement element){
+        element.click();
     }
-    public void type(String locator, String text){
-        try {
-            driver.findElement(By.cssSelector(locator)).sendKeys(text);
-        }catch (Exception e) {
-            driver.findElement(By.xpath(locator)).sendKeys(text);
-        }
+    public void type(WebElement element, String text){
+        element.sendKeys(text);
     }
-    public boolean isDisplayed(String locator){
-        try {
-            return driver.findElement(By.cssSelector(locator)).isDisplayed();
-        }catch (Exception e) {
-            return driver.findElement(By.xpath(locator)).isDisplayed();
-        }
+    public boolean isDisplayed(WebElement element){
+        return element.isDisplayed();
     }
-    public String getWebElementText(String locator){
-        try {
-            return driver.findElement(By.cssSelector(locator)).getText();
-        }catch (Exception e) {
-            return driver.findElement(By.xpath(locator)).getText();
-        }
+    public String getWebElementText(WebElement element){
+        return element.getText();
     }
     public void waitFor(int sec) {
         try {
@@ -60,5 +45,14 @@ public class CommonAPI {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+    public void selectFromDropdown(WebElement dropdown, String option){
+        Select select  = new Select(dropdown);
+        try {
+            select.selectByVisibleText(option);
+        }catch (Exception e){
+            select.selectByValue(option);
+        }
+
     }
 }

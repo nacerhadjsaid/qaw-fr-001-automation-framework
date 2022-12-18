@@ -20,10 +20,23 @@ public class HomePage extends CommonAPI {
     WebElement filterDropdown;
     @FindBy(xpath = "//div[@class='inventory_item_price']")
     List<WebElement> itemsPrice;
+    @FindBy(xpath = "//button[@id='react-burger-menu-btn']")
+    WebElement hamburgerMenu;
+    @FindBy(xpath = "//a[@id='about_sidebar_link']")
+    WebElement aboutLink;
+    @FindBy(xpath = "//a[@id='inventory_sidebar_link']")
+    WebElement allItemsLink;
+    @FindBy(xpath = "//a[@id='logout_sidebar_link']")
+    WebElement logoutLink;
+    @FindBy(xpath = "//a[@id='reset_sidebar_link']")
+    WebElement resetAppStateLink;
+    @FindBy(xpath = "(//div[@class='inventory_item_price']/following-sibling::button)[1]")
+    WebElement item1;
 
     public boolean productsHeaderIsDisplayed(){
+        boolean flag = isDisplayed(productsHeader);
         System.out.println("products header is displayed");
-        return isDisplayed(productsHeader);
+        return flag;
     }
     public void selectLowerToHigherFromFilter(){
         selectFromDropdown(filterDropdown, "Price (low to high)");
@@ -39,5 +52,39 @@ public class HomePage extends CommonAPI {
             prices.add(itemPrice.getText().replace("$",""));
         }
         return prices;
+    }
+    public boolean validateAllItemsOptionIsDisplayed(){
+        boolean flag = isDisplayed(allItemsLink);
+        System.out.println("all items link display success");
+        return flag;
+    }
+    public boolean validateAboutOptionIsDisplayed(){
+        boolean flag = isDisplayed(aboutLink);
+        System.out.println("about link display success");
+        return flag;
+    }
+    public boolean validateLogoutOptionIsDisplayed(){
+        boolean flag = isDisplayed(logoutLink);
+        System.out.println("logout link display success");
+        return flag;
+    }
+    public boolean validateResetAppStateOptionIsDisplayed(){
+        boolean flag = isDisplayed(resetAppStateLink);
+        System.out.println("reset app state link display success");
+        return flag;
+    }
+    public void clickOnHamburgerMenu(){
+        clickOn(hamburgerMenu);
+        System.out.println("click on hamburger menu success");
+    }
+    public void clickAboutLink(){
+        clickOn(aboutLink);
+        System.out.println("click on about link success");
+    }
+    public void addItem1ToCart(){
+        clickOn(item1);
+    }
+    public String getItem1Color(){
+        return getElementCssValue(item1);
     }
 }

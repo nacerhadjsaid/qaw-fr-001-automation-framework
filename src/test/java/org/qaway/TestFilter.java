@@ -1,26 +1,24 @@
 package org.qaway;
 
-import com.google.common.collect.Ordering;
 import org.qaway.base.CommonAPI;
-import org.qaway.base.Utility;
+import org.qaway.utility.Utility;
 import org.qaway.pages.HomePage;
 import org.qaway.pages.LoginPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class TestFilter extends CommonAPI {
 
+    String username = Utility.decode(prop.getProperty("username"));
+    String password = Utility.decode(prop.getProperty("password"));
     @Test
     public void filterFromLowToHigh() {
         LoginPage loginPage = new LoginPage(driver);
         HomePage homePage = new HomePage(driver);
 
-        loginPage.login("standard_user", "secret_sauce");
+        loginPage.login(username, password);
         Assert.assertTrue(homePage.productsHeaderIsDisplayed());
+        captureScreenshot("homepage");
 
         homePage.selectLowerToHigherFromFilter();
         System.out.println("list of prices: "+homePage.getItemsPrice());

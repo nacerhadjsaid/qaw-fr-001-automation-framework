@@ -3,29 +3,40 @@ package org.qaway;
 import org.qaway.base.CommonAPI;
 import org.qaway.pages.HomePage;
 import org.qaway.pages.LoginPage;
+import org.qaway.utility.ConnectDB;
+import org.qaway.utility.ExcelReader;
+import org.qaway.utility.Utility;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class TestLogin extends CommonAPI {
+import java.io.File;
 
+public class TestLogin extends CommonAPI {
+    String username = Utility.decode(prop.getProperty("username"));
+    String password = Utility.decode(prop.getProperty("password"));
+    ExcelReader excelReader = new ExcelReader(Utility.currentDir+ File.separator+"data"+File.separator+"test-data.xlsx", "data");
+
+    ConnectDB connectDB = new ConnectDB();
+    String dbUsername = connectDB.getTableColumnData("select * from cred;", "username").get(0);
+    String dbPassword = connectDB.getTableColumnData("select * from cred;", "password").get(0);
     @Test
     public void loginWithValidCredentials() {
         LoginPage loginPage = new LoginPage(driver);
         HomePage homePage = new HomePage(driver);
 
         //check user land on the right page
-        String expected = "Swag Labs";
+        String expected = excelReader.getDataForGivenHeaderAndKey("key", "login page title");
         String actual = getPageTitle();
 
         Assert.assertEquals(expected, actual);
         System.out.println("page title validation success");
 
         //enter username
-        loginPage.typeUsername("standard_user");
+        loginPage.typeUsername(dbUsername);
         System.out.println("enter username success");
 
         //enter password
-        loginPage.typePassword("secret_sauce");
+        loginPage.typePassword(dbPassword);
         System.out.println("enter password success");
 
         //click on login button
@@ -40,7 +51,7 @@ public class TestLogin extends CommonAPI {
     public void loginAttemptWithoutUsername() {
         LoginPage loginPage = new LoginPage(driver);
         //check user land on the right page
-        String expected = "Swag Labs";
+        String expected = excelReader.getDataForGivenHeaderAndKey("key", "login page title");
         String actual = getPageTitle();
 
         Assert.assertEquals(expected, actual);
@@ -51,7 +62,7 @@ public class TestLogin extends CommonAPI {
         System.out.println("enter username success");
 
         //enter password
-        loginPage.typePassword("secret_sauce");
+        loginPage.typePassword(password);
         System.out.println("enter password success");
 
         //click on login button
@@ -60,21 +71,21 @@ public class TestLogin extends CommonAPI {
 
         String textError = loginPage.getErrorMessage();
         System.out.println("error message: "+ textError);
-        Assert.assertEquals("Epic sadface: Username is required", textError);
+        Assert.assertEquals(excelReader.getDataForGivenHeaderAndKey("key", "invalid username error message"), textError);
         System.out.println("error message validation success");
     }
     //@Test
     public void loginAttemptWithoutPassword() {
         LoginPage loginPage = new LoginPage(driver);
         //check user land on the right page
-        String expected = "Swag Labs";
+        String expected = excelReader.getDataForGivenHeaderAndKey("key", "login page title");
         String actual = getPageTitle();
 
         Assert.assertEquals(expected, actual);
         System.out.println("page title validation success");
 
         //enter username
-        loginPage.typeUsername("standard_user");
+        loginPage.typeUsername(username);
         System.out.println("enter username success");
 
         //enter password
@@ -87,7 +98,7 @@ public class TestLogin extends CommonAPI {
 
         String textError = loginPage.getErrorMessage();
         System.out.println("error message: "+ textError);
-        Assert.assertEquals("Epic sadface: Password is required", textError);
+        Assert.assertEquals(excelReader.getDataForGivenHeaderAndKey("key", "invalid password error message"), textError);
         System.out.println("error message validation success");
     }
 }

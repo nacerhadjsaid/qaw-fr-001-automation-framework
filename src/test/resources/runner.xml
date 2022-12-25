@@ -12,10 +12,11 @@
     <parameter name="url" value="https://www.saucedemo.com/"></parameter>
     <test name="Login page">
         <classes>
-            <class name="org.qaway.TestInitialPage"></class>
+<!--            <class name="org.qaway.TestInitialPage"></class>-->
             <class name="org.qaway.TestLogin"></class>
-            <class name="org.qaway.TestPurchase"></class>
-            <class name="org.qaway.TestMenu"></class>
+<!--            <class name="org.qaway.TestPurchase"></class>-->
+<!--            <class name="org.qaway.TestMenu"></class>-->
+<!--            <class name="org.qaway.TestFilter"></class>-->
         </classes>
     </test>
 </suite>

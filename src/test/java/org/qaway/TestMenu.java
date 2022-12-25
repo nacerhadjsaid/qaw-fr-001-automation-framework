@@ -5,11 +5,14 @@ import org.qaway.pages.HomePage;
 import org.qaway.pages.LoginPage;
 import org.qaway.pages.SLCommunityPage;
 import org.qaway.pages.SLHomePage;
+import org.qaway.utility.Utility;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class TestMenu extends CommonAPI {
 
+    String username = Utility.decode(prop.getProperty("username"));
+    String password = Utility.decode(prop.getProperty("password"));
     @Test
     public void about(){
         LoginPage loginPage = new LoginPage(driver);
@@ -18,7 +21,7 @@ public class TestMenu extends CommonAPI {
         SLCommunityPage slCommunityPage = new SLCommunityPage(driver);
 
         //login
-        loginPage.login("standard_user", "secret_sauce");
+        loginPage.login(username, password);
         Assert.assertTrue(homePage.productsHeaderIsDisplayed());
 
         //click on hamburger menu

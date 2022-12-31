@@ -1,5 +1,7 @@
 package org.qaway.pages;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -8,6 +10,7 @@ import org.qaway.base.CommonAPI;
 
 public class SLCommunityPage extends CommonAPI {
 
+    Logger LOG = LogManager.getLogger(SLCommunityPage.class.getName());
     public SLCommunityPage(WebDriver driver){
         PageFactory.initElements(driver, this);
     }
@@ -16,7 +19,7 @@ public class SLCommunityPage extends CommonAPI {
     WebElement mainHeader;
 
     public String getMainHeaderText(){
-        System.out.println("main header display success");
+        LOG.info("main header display success");
        return getWebElementText(mainHeader);
     }
 }

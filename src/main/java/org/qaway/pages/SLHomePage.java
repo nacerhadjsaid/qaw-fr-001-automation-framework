@@ -1,5 +1,7 @@
 package org.qaway.pages;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -8,6 +10,7 @@ import org.qaway.base.CommonAPI;
 
 public class SLHomePage extends CommonAPI {
 
+    Logger LOG = LogManager.getLogger(SLHomePage.class.getName());
     public SLHomePage(WebDriver driver){
         PageFactory.initElements(driver, this);
     }
@@ -22,10 +25,11 @@ public class SLHomePage extends CommonAPI {
     }
     public void hoverOverContact(WebDriver driver){
         hoverOver(driver, contact);
-        System.out.println("hover over contact success");
+        LOG.info("hover over contact success");
+        System.out.println();
     }
     public void clickOnSauceCommunity(){
         clickOn(sauceCommunity);
-        System.out.println("click on sauce community success");
+        LOG.info("click on sauce community success");
     }
 }

@@ -1,0 +1,38 @@
+11:56:51.029 [main] INFO  org.qaway.pages.HomePage - products header is displayed
+11:56:51.073 [main] INFO  org.qaway.TestPurchase - rgba(226, 35, 26, 1)
+11:56:51.178 [main] INFO  org.qaway.TestPurchase - rgba(71, 76, 85, 1)
+11:56:51.221 [main] INFO  org.qaway.base.CommonAPI - take screenshot for failure true
+11:56:51.700 [main] INFO  org.qaway.base.CommonAPI - browser close success
+11:56:56.739 [main] INFO  org.qaway.base.CommonAPI - browser open success
+11:56:58.049 [main] INFO  org.qaway.pages.LoginPage - login process success
+11:56:58.109 [main] INFO  org.qaway.pages.HomePage - products header is displayed
+11:56:58.173 [main] INFO  org.qaway.pages.HomePage - click on hamburger menu success
+11:56:58.174 [main] INFO  org.qaway.pages.HomePage - checking all items link is displayed ...
+11:56:58.408 [main] INFO  org.qaway.base.CommonAPI - take screenshot for failure true
+11:56:58.408 [main] INFO  org.qaway.base.CommonAPI - test failed
+11:56:59.200 [main] INFO  org.qaway.base.CommonAPI - take screenshot
+11:56:59.469 [main] INFO  org.qaway.base.CommonAPI - browser close success
+11:57:07.059 [main] INFO  org.qaway.base.CommonAPI - browser open success
+11:57:09.399 [main] INFO  org.qaway.pages.LoginPage - login process success
+11:57:09.777 [main] INFO  org.qaway.pages.HomePage - products header is displayed
+11:57:15.046 [main] INFO  org.qaway.pages.HomePage - price low to high select success
+11:57:15.226 [main] INFO  org.qaway.TestFilter - list of prices: [7.99, 9.99, 15.99, 15.99, 29.99, 49.99]
+11:57:15.298 [main] INFO  org.qaway.TestFilter - items sorted success
+11:57:15.348 [main] INFO  org.qaway.base.CommonAPI - take screenshot for failure true
+11:57:15.740 [main] INFO  org.qaway.base.CommonAPI - browser close success
+11:59:04.044 [main] INFO  org.qaway.base.CommonAPI - browser open success
+11:59:05.657 [main] INFO  org.qaway.pages.LoginPage - login process success
+11:59:05.849 [main] INFO  org.qaway.pages.HomePage - products header is displayed
+11:59:05.912 [main] INFO  org.qaway.pages.HomePage - click on hamburger menu success
+11:59:05.912 [main] INFO  org.qaway.pages.HomePage - checking all items link is displayed ...
+11:59:06.079 [main] INFO  org.qaway.pages.HomePage - checking about link is displayed ...
+11:59:06.132 [main] INFO  org.qaway.pages.HomePage - checking logout link is displayed ...
+11:59:06.167 [main] INFO  org.qaway.pages.HomePage - checking app state link is displayed ...
+11:59:09.851 [main] INFO  org.qaway.pages.HomePage - click on about link success
+11:59:10.298 [main] INFO  org.qaway.TestMenu - current url: https://saucelabs.com/
+11:59:10.497 [main] INFO  org.qaway.TestMenu - url validation success
+11:59:10.782 [main] INFO  org.qaway.pages.SLHomePage - hover over contact success
+11:59:14.146 [main] INFO  org.qaway.pages.SLHomePage - click on sauce community success
+11:59:14.146 [main] INFO  org.qaway.pages.SLCommunityPage - main header display success
+11:59:16.075 [main] INFO  org.qaway.base.CommonAPI - take screenshot for failure true
+11:59:16.726 [main] INFO  org.qaway.base.CommonAPI - browser close success

@@ -2,8 +2,11 @@ package org.qaway.base;
 
 import org.apache.commons.io.FileUtils;
 import com.relevantcodes.extentreports.LogStatus;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -35,6 +38,7 @@ import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 public class CommonAPI {
+    Logger LOG = LogManager.getLogger(CommonAPI.class.getName());
     public Properties prop = Utility.loadProperties();
     String username = prop.getProperty("bs.username");
     String password = prop.getProperty("bs.password");
@@ -61,6 +65,7 @@ public class CommonAPI {
         ExtentTestManager.startTest(method.getName());
         ExtentTestManager.getTest().assignCategory(className);
     }
+
     protected String getStackTrace(Throwable t) {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
@@ -86,16 +91,16 @@ public class CommonAPI {
         }
         ExtentTestManager.endTest();
         extent.flush();
-        if (takeScreenshot.equalsIgnoreCase("true")){
-            System.out.println("take screenshot for failure true");
+        if (takeScreenshot.equalsIgnoreCase("true")) {
+            LOG.info("take screenshot for failure true");
             if (result.getStatus() == ITestResult.FAILURE) {
-                System.out.println("test failed");
+                LOG.info("test failed");
                 takeScreenshot(result.getName());
-                System.out.println("take screenshot");
+                LOG.info("take screenshot");
             }
         }
         driver.quit();
-        System.out.println("browser close success");
+        LOG.info("browser close success");
     }
 
     @AfterSuite
@@ -108,36 +113,16 @@ public class CommonAPI {
         calendar.setTimeInMillis(millis);
         return calendar.getTime();
     }
-    public WebDriver getDriver(String os, String browserName){
-        if(os.equalsIgnoreCase("OS X")){
-            if (browserName.equalsIgnoreCase("chrome")){
-                System.setProperty("driver.chromedriver", "../drivers/mac/chromedriver");
-                driver = new ChromeDriver();
-            } else if (browserName.equalsIgnoreCase("firefox")) {
-                System.setProperty("driver.geckodriver", "../drivers/mac/geckodriver");
-                driver = new FirefoxDriver();
-            }
-        } else if (os.equalsIgnoreCase("windows")) {
-            if (browserName.equalsIgnoreCase("chrome")){
-                System.setProperty("driver.chromedriver", "..\\driver\\win\\chromedriver.exe");
-                driver = new ChromeDriver();
-            } else if (browserName.equalsIgnoreCase("firefox")) {
-                System.setProperty("driver.geckodriver", "..\\drivers\\win\\geckodriver.exe");
-                driver = new FirefoxDriver();
-            }
-        } else if (os.equalsIgnoreCase("linux")) {
-            if (browserName.equalsIgnoreCase("chrome")){
-                System.setProperty("driver.chromedriver", "../drivers/mac/chromedriver");
-                driver = new ChromeDriver();
-            } else if (browserName.equalsIgnoreCase("firefox")) {
-                System.setProperty("driver.geckodriver", "../drivers/mac/geckodriver");
-                driver = new FirefoxDriver();
-            }
+
+    public void getDriver(String browserName) {
+        if (browserName.equalsIgnoreCase("chrome")) {
+            driver = new ChromeDriver();
+        } else if (browserName.equalsIgnoreCase("firefox")) {
+            driver = new FirefoxDriver();
         }
-        return driver;
     }
 
-    public WebDriver getCLoudDriver(String envName, String os, String osVersion, String browserName, String browserVersion, String username, String password) throws MalformedURLException {
+    public void getCLoudDriver(String envName, String os, String osVersion, String browserName, String browserVersion, String username, String password) throws MalformedURLException {
         DesiredCapabilities cap = new DesiredCapabilities();
         cap.setCapability("os", os);
         cap.setCapability("os_version", osVersion);
@@ -145,56 +130,60 @@ public class CommonAPI {
         cap.setCapability("browser_version", browserVersion);
         if (envName.equalsIgnoreCase("browserstack")) {
             cap.setCapability("resolution", "1024x768");
-            driver = new RemoteWebDriver(new URL("http://"+username+":"+password+"@hub-cloud.browserstack.com:80/wd/hub"),cap);
+            driver = new RemoteWebDriver(new URL("http://" + username + ":" + password + "@hub-cloud.browserstack.com:80/wd/hub"), cap);
         } else if (envName.equalsIgnoreCase("saucelabs")) {
-            driver = new RemoteWebDriver(new URL("http://"+username+":"+password+"@ondemand.saucelabs.com:80/wd/hub"),cap);
+            driver = new RemoteWebDriver(new URL("http://" + username + ":" + password + "@ondemand.saucelabs.com:80/wd/hub"), cap);
         }
-        return driver;
     }
 
-    @Parameters({"useCloudEnv","envName","url","os","osVersion","browserName","browserVersion"})
+    @Parameters({"useCloudEnv", "envName", "url", "os", "osVersion", "browserName", "browserVersion"})
     @BeforeMethod
-    public void setUp(@Optional("false") boolean useCloudEnv,@Optional("browserstack") String envName,
-                      @Optional("https://www.google.com") String url,@Optional("OS X") String os,
-                      @Optional("Ventura") String osVersion,@Optional("chrome") String browserName,
-                      @Optional("108") String browserVersion) throws MalformedURLException
-    {
-        if (useCloudEnv){
-            getCLoudDriver(envName,os,osVersion,browserName,browserVersion,username,password);
-        }else {
-            getDriver(os, browserName);
+    public void setUp(@Optional("false") boolean useCloudEnv, @Optional("browserstack") String envName,
+                      @Optional("https://www.google.com") String url, @Optional("OS X") String os,
+                      @Optional("Ventura") String osVersion, @Optional("chrome") String browserName,
+                      @Optional("108") String browserVersion) throws MalformedURLException {
+        if (useCloudEnv) {
+            getCLoudDriver(envName, os, osVersion, browserName, browserVersion, username, password);
+        } else {
+            getDriver(browserName);
         }
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(Integer.parseInt(implicitWait)));
-        if (windowMaximize.equalsIgnoreCase("true")){
+        if (windowMaximize.equalsIgnoreCase("true")) {
             driver.manage().window().maximize();
         }
         driver.get(url);
-        System.out.println("browser open success");
+        LOG.info("browser open success");
     }
 //    @AfterMethod
 //    public void close(){
 //        driver.quit();
-//        System.out.println("browser close success");
+//        LOG.info("browser close success");
 //    }
 
-    public String getPageTitle(){
+    public String getPageTitle() {
         return driver.getTitle();
     }
-    public String getPageUrl(WebDriver driver1){
+
+    public String getPageUrl(WebDriver driver1) {
         return driver1.getCurrentUrl();
     }
-    public void clickOn(WebElement element){
+
+    public void clickOn(WebElement element) {
         element.click();
     }
-    public void type(WebElement element, String text){
+
+    public void type(WebElement element, String text) {
         element.sendKeys(text);
     }
-    public boolean isDisplayed(WebElement element){
+
+    public boolean isDisplayed(WebElement element) {
         return element.isDisplayed();
     }
-    public String getWebElementText(WebElement element){
+
+    public String getWebElementText(WebElement element) {
         return element.getText();
     }
+
     public void waitFor(int sec) {
         try {
             Thread.sleep(sec * 1000);
@@ -202,47 +191,53 @@ public class CommonAPI {
             throw new RuntimeException(e);
         }
     }
-    public void selectFromDropdown(WebElement dropdown, String option){
-        Select select  = new Select(dropdown);
+
+    public void selectFromDropdown(WebElement dropdown, String option) {
+        Select select = new Select(dropdown);
         try {
             select.selectByVisibleText(option);
-        }catch (Exception e){
+        } catch (Exception e) {
             select.selectByValue(option);
         }
 
     }
-    public void hoverOver(WebDriver driver1, WebElement element){
+
+    public void hoverOver(WebDriver driver1, WebElement element) {
         Actions actions = new Actions(driver1);
         actions.moveToElement(element).build().perform();
     }
-    public String getElementCssValue(WebElement element){
+
+    public String getElementCssValue(WebElement element) {
         return element.getCssValue("color");
     }
-    public void waitForElementToBeAvailable(WebDriver driver, WebElement element){
+
+    public void waitForElementToBeAvailable(WebDriver driver, WebElement element) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
         wait.until(ExpectedConditions.visibilityOf(element));
     }
-    public void captureScreenshot(String screenshot){
-        File file = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+
+    public void captureScreenshot(String screenshot) {
+        File file = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         try {
-            FileUtils.copyFile(file,new File("screenshots"+File.separator+screenshot+".png"));
+            FileUtils.copyFile(file, new File("screenshots" + File.separator + screenshot + ".png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-    public void takeScreenshot(String screenshotName){
+
+    public void takeScreenshot(String screenshotName) {
         DateFormat df = new SimpleDateFormat("MMddyyyyHHmma");
         Date date = new Date();
         df.format(date);
 
-        File file = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+        File file = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         try {
-            FileUtils.copyFile(file, new File(Utility.currentDir+File.separator+"screenshots"+File.separator+screenshotName+" "+df.format(date)+".png"));
+            FileUtils.copyFile(file, new File(Utility.currentDir + File.separator + "screenshots" + File.separator + screenshotName + " " + df.format(date) + ".png"));
             //LOG.info("Screenshot captured");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-            //LOG.info("Screenshot captured");
-            //LOG.info("Exception while taking screenshot "+e.getMessage());
+        //LOG.info("Screenshot captured");
+        //LOG.info("Exception while taking screenshot "+e.getMessage());
     }
 }

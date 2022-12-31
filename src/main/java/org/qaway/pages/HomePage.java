@@ -1,5 +1,7 @@
 package org.qaway.pages;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomePage extends CommonAPI {
+    Logger LOG = LogManager.getLogger(HomePage.class.getName());
 
     public HomePage(WebDriver driver){
         PageFactory.initElements(driver, this);
@@ -35,16 +38,16 @@ public class HomePage extends CommonAPI {
 
     public boolean productsHeaderIsDisplayed(){
         boolean flag = isDisplayed(productsHeader);
-        System.out.println("products header is displayed");
+        LOG.info("products header is displayed");
         return flag;
     }
     public void selectLowerToHigherFromFilter(){
         selectFromDropdown(filterDropdown, "Price (low to high)");
-        System.out.println("price low to high select success");
+        LOG.info("price low to high select success");
     }
     public void selectFromFilter(String option){
         selectFromDropdown(filterDropdown, option);
-        System.out.println(option + " select success");
+        LOG.info(option + " select success");
     }
     public List<String> getItemsPrice(){
         List<String> prices = new ArrayList<String>();
@@ -54,32 +57,28 @@ public class HomePage extends CommonAPI {
         return prices;
     }
     public boolean validateAllItemsOptionIsDisplayed(){
-        boolean flag = isDisplayed(allItemsLink);
-        System.out.println("all items link display success");
-        return flag;
+        LOG.info("checking all items link is displayed ...");
+        return isDisplayed(allItemsLink);
     }
     public boolean validateAboutOptionIsDisplayed(){
-        boolean flag = isDisplayed(aboutLink);
-        System.out.println("about link display success");
-        return flag;
+        LOG.info("checking about link is displayed ...");
+        return isDisplayed(aboutLink);
     }
     public boolean validateLogoutOptionIsDisplayed(){
-        boolean flag = isDisplayed(logoutLink);
-        System.out.println("logout link display success");
-        return flag;
+        LOG.info("checking logout link is displayed ...");
+        return isDisplayed(logoutLink);
     }
     public boolean validateResetAppStateOptionIsDisplayed(){
-        boolean flag = isDisplayed(resetAppStateLink);
-        System.out.println("reset app state link display success");
-        return flag;
+        LOG.info("checking app state link is displayed ...");
+        return isDisplayed(resetAppStateLink);
     }
     public void clickOnHamburgerMenu(){
         clickOn(hamburgerMenu);
-        System.out.println("click on hamburger menu success");
+        LOG.info("click on hamburger menu success");
     }
     public void clickAboutLink(){
         clickOn(aboutLink);
-        System.out.println("click on about link success");
+        LOG.info("click on about link success");
     }
     public void addItem1ToCart(){
         clickOn(item1);

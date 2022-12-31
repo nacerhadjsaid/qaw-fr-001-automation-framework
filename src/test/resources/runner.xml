@@ -3,20 +3,21 @@
 
 <suite name="sauce demo regression">
     <parameter name="useCloudEnv" value="false"></parameter>
+
     <parameter name="envName" value="browserstack"></parameter>
     <parameter name="osVersion" value="11"></parameter>
     <parameter name="browserVersion" value="101"></parameter>
-
     <parameter name="os" value="windows"></parameter>
+
     <parameter name="browserName" value="chrome"></parameter>
     <parameter name="url" value="https://www.saucedemo.com/"></parameter>
     <test name="Login page">
         <classes>
-<!--            <class name="org.qaway.TestInitialPage"></class>-->
+            <class name="org.qaway.TestInitialPage"></class>
             <class name="org.qaway.TestLogin"></class>
-<!--            <class name="org.qaway.TestPurchase"></class>-->
-<!--            <class name="org.qaway.TestMenu"></class>-->
-<!--            <class name="org.qaway.TestFilter"></class>-->
+            <class name="org.qaway.TestPurchase"></class>
+            <class name="org.qaway.TestMenu"></class>
+            <class name="org.qaway.TestFilter"></class>
         </classes>
     </test>
 </suite>

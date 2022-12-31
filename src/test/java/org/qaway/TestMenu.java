@@ -1,5 +1,7 @@
 package org.qaway;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.qaway.base.CommonAPI;
 import org.qaway.pages.HomePage;
 import org.qaway.pages.LoginPage;
@@ -10,6 +12,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class TestMenu extends CommonAPI {
+    Logger LOG = LogManager.getLogger(TestMenu.class.getName());
 
     String username = Utility.decode(prop.getProperty("username"));
     String password = Utility.decode(prop.getProperty("password"));
@@ -37,9 +40,9 @@ public class TestMenu extends CommonAPI {
         homePage.clickAboutLink();
 
         //click on saucelab community
-        System.out.println("current url: " + slHomePage.getSLHomePageUrl(driver));
+        LOG.info("current url: " + slHomePage.getSLHomePageUrl(driver));
         Assert.assertEquals("https://saucelabs.com/", slHomePage.getSLHomePageUrl(driver));
-        System.out.println("url validation success");
+        LOG.info("url validation success");
         slHomePage.hoverOverContact(driver);
         slHomePage.clickOnSauceCommunity();
 

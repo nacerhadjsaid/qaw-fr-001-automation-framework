@@ -1,5 +1,7 @@
 package org.qaway;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.qaway.base.CommonAPI;
 import org.qaway.utility.Utility;
 import org.qaway.pages.HomePage;
@@ -9,6 +11,7 @@ import org.testng.annotations.Test;
 
 public class TestFilter extends CommonAPI {
 
+    Logger LOG = LogManager.getLogger(TestFilter.class.getName());
     String username = Utility.decode(prop.getProperty("username"));
     String password = Utility.decode(prop.getProperty("password"));
     @Test
@@ -21,9 +24,9 @@ public class TestFilter extends CommonAPI {
         captureScreenshot("homepage");
 
         homePage.selectLowerToHigherFromFilter();
-        System.out.println("list of prices: "+homePage.getItemsPrice());
+        LOG.info("list of prices: "+homePage.getItemsPrice());
         double[] finalPrices = Utility.listToArrayOfDoubles(homePage.getItemsPrice());
         Assert.assertTrue(Utility.isSorted(finalPrices));
-        System.out.println("items sorted success");
+        LOG.info("items sorted success");
     }
 }
